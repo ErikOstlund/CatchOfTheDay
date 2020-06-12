@@ -1,8 +1,15 @@
 {
-    "extends": ["airbnb", "prettier"],
+    "extends": ["prettier"],
     "plugins": ["prettier"],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 11,
+        "sourceType": "module"
+    },
     "rules": {
-        "no-unused-vars": "warn",
+        "no-unused-vars": "off",
         "no-console": "off",
         "func-names": "off",
         "class-methods-use-this": "off"
