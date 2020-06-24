@@ -31,6 +31,19 @@ class App extends React.Component {
         });
     };
 
+    addToOrder = (key) => {
+        // Make a copy of the existing state
+        const selectedFish = { ...this.state.order };
+
+        // Add to order or update the qty in the order
+        selectedFish[key] = selectedFish[key] + 1 || 1;
+
+        // use React api to update the state
+        this.setState({
+            order: selectedFish
+        });
+    };
+
     render() {
         return (
             <div className="catch-of-the-day">
@@ -40,7 +53,9 @@ class App extends React.Component {
                         {Object.keys(this.state.fishes).map((key) => (
                             <Fish
                                 key={key}
+                                fishKey={key}
                                 fishDetails={this.state.fishes[key]}
+                                addToOrder={this.addToOrder}
                             />
                         ))}
                     </ul>
