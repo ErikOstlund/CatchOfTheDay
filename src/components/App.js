@@ -15,10 +15,27 @@ class App extends React.Component {
     // initialize/sync app state with firebase
     componentDidMount() {
         const { params } = this.props.match;
+        // reinstate our localStorage
+        const localStorageRef = localStorage.getItem(params.storeId);
+        // only setState w/ localStorage if store exists in localStorage
+        if (localStorageRef) {
+            this.setState({ order: JSON.parse(localStorageRef) });
+        }
+
         this.ref = base.syncState(`${params.storeId}/fishes`, {
             context: this,
             state: 'fishes'
         });
+    }
+
+    componentDidUpdate() {
+        console.log(this.state.order);
+        // localStorage.setItem requires a key/value
+        // sending the store as key and order state as value
+        localStorage.setItem(
+            this.props.match.params.storeId,
+            JSON.stringify(this.state.order)
+        );
     }
 
     componentWillUnmount() {
