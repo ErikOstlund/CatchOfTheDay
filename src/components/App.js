@@ -67,6 +67,18 @@ class App extends React.Component {
         });
     };
 
+    deleteFish = (key) => {
+        // Make a copy of the existing state
+        const updatedFishes = { ...this.state.fishes };
+        // set the selected fish to be deleted to null in the copy (updatedFishes)
+        // setting to null is a Firebase thing
+        updatedFishes[key] = null;
+        // Update the State
+        this.setState({
+            fishes: updatedFishes
+        });
+    };
+
     loadSampleFishes = () => {
         this.setState({
             fishes: sampleFishes
@@ -81,6 +93,15 @@ class App extends React.Component {
         selectedFish[key] = selectedFish[key] + 1 || 1;
 
         // use React api to update the state
+        this.setState({
+            order: selectedFish
+        });
+    };
+
+    removeFromOrder = (key) => {
+        const selectedFish = { ...this.state.order };
+        // not using Firebase, so can just use delete
+        delete selectedFish[key];
         this.setState({
             order: selectedFish
         });
@@ -102,10 +123,15 @@ class App extends React.Component {
                         ))}
                     </ul>
                 </div>
-                <Order fishes={this.state.fishes} order={this.state.order} />
+                <Order
+                    fishes={this.state.fishes}
+                    order={this.state.order}
+                    removeFromOrder={this.removeFromOrder}
+                />
                 <Inventory
                     addFish={this.addFish}
                     updateFish={this.updateFish}
+                    deleteFish={this.deleteFish}
                     loadSampleFishes={this.loadSampleFishes}
                     fishes={this.state.fishes}
                 />
